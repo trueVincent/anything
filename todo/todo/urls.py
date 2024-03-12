@@ -1,8 +1,8 @@
 """
-URL configuration for ecommerce project.
+URL configuration for todo project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
+    https://docs.djangoproject.com/en/5.0/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -17,10 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from prime.views import ProductList
+from core.views import TodoList, TodoDetail
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/products/', ProductList.as_view()),
+    path('api/v1/todos/', TodoList.as_view()),
+    path('api/v1/todos/<int:pk>', TodoDetail.as_view()),
 ]
