@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,8 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure--#n)#@0hp&ji6axg+)l705(1s0!+e&(u@vf+)0#nd-*%0dr+*5'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+with open(os.path.join(BASE_DIR, 'settings.json'), 'r') as f:
+    settings_json = json.load(f)
+ENV = settings_json['ENV']  # local, dev, qa, staging, prod
+DEBUG = settings_json['DEBUG']
 
 ALLOWED_HOSTS = []
 
@@ -78,13 +82,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'OPTIONS': {
-            'options': '-c search_path=todo'
+            'options': f'-c search_path={settings_json["DB"]["SCHEMA"]}'
         },
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': settings_json['DB']['NAME'],
+        'USER': settings_json['DB']['USER'],
+        'PASSWORD': settings_json['DB']['PASSWORD'],
+        'HOST': settings_json['DB']['HOST'],
+        'PORT': settings_json['DB']['PORT'],
     }
 }
 

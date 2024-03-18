@@ -1,0 +1,12 @@
+{
+    "ENV": "prod",
+    "DEBUG": false,
+    "DB": {
+        "NAME": "postgres",
+        "USER": "postgres",
+        "PASSWORD": "123456",
+        "HOST": "todo-db",
+        "PORT": "5432",
+        "SCHEMA": "todo"
+    }
+}
