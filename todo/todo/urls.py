@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 from core.views import TodoList, TodoDetail
 
@@ -24,4 +26,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/todos/', TodoList.as_view()),
     path('api/v1/todos/<int:pk>', TodoDetail.as_view()),
-]
+] + static(settings.STATUS_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

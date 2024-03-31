@@ -1,6 +1,7 @@
 {
     "ENV": "local",
     "DEBUG": true,
+    "ALLOWED_HOSTS": [],
     "DB": {
         "NAME": "postgres",
         "USER": "postgres",
@@ -8,5 +9,7 @@
         "HOST": "localhost",
         "PORT": "5432",
         "SCHEMA": "todo"
-    }
+    },
+    "MEDIA_ROOT": "/mnt",
+    "LOG_LEVEL": "DEBUG"
 }

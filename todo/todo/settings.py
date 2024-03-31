@@ -29,7 +29,7 @@ with open(os.path.join(BASE_DIR, 'settings.json'), 'r') as f:
 ENV = settings_json['ENV']  # local, dev, qa, staging, prod
 DEBUG = settings_json['DEBUG']
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = settings_json['ALLOWED_HOSTS']
 
 
 # Application definition
@@ -128,8 +128,49 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+MEDIA_URL = 'media/'
+MEDIA_ROOT = settings_json['MEDIA_ROOT']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "standard": {
+            "format": "{asctime} [{filename}:{lineno}] [{module}:{funcName}] [{levelname}] - {message}"
+        }
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "filters": ["require_debug_true"],
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        'todo': {
+            'level': settings_json["LOG_LEVEL"],
+            'class': 'logging.handlers.WatchedFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/todo.log'),
+            'formatter': 'standard',
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "propagate": True,
+        },
+        'todo': {
+            'handlers': ['todo'],
+            'level': settings_json["LOG_LEVEL"],
+            'propagate': True,
+        },
+    },
+}

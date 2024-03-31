@@ -1,3 +1,5 @@
+import logging
+
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -5,6 +7,8 @@ from rest_framework import status
 
 from core.models import Todo
 from core.serializers import TodoSerializer
+
+logger = logging.getLogger('todo')
 
 
 class TodoList(APIView):
@@ -14,6 +18,7 @@ class TodoList(APIView):
         return Response(serializer.data)
 
     def post(self, request):
+        logger.debug(f'Create Todo. request_data: {request.data}')
         serializer = TodoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -42,6 +47,7 @@ class TodoDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
+        logger.debug(f'Delete Todo. pk: {pk}')
         todo = self.get_object(pk)
         todo.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
