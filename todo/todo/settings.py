@@ -145,15 +145,14 @@ LOGGING = {
     "disable_existing_loggers": False,
     "formatters": {
         "standard": {
-            "format": "{asctime} [{filename}:{lineno}] [{module}:{funcName}] [{levelname}] - {message}"
+            "format": '%(asctime)s [%(filename)s:%(lineno)d] [%(module)s:%(funcName)s] [%(levelname)s] - %(message)s'
         }
     },
     "handlers": {
         "console": {
-            "level": "INFO",
-            "filters": ["require_debug_true"],
+            "level": settings_json["LOG_LEVEL"],
             "class": "logging.StreamHandler",
-            "formatter": "simple",
+            "formatter": "standard",
         },
         'todo': {
             'level': settings_json["LOG_LEVEL"],
