@@ -10,3 +10,4 @@ Tech stack:
 - AWS
 - Infra as code(Ansible/Terraform)
 - Monitor(Grafana)
+- Testing
