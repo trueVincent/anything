@@ -1,0 +1,42 @@
+version: "3"
+services:
+  todo-db:
+    image: postgres:13
+    container_name: todo-db
+    environment:
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+    volumes:
+      - todo-db-volume:/var/lib/postgresql/data
+
+  todo-app:
+    build:
+      context: ../todo
+    container_name: todo-app
+    depends_on:
+      - todo-db
+    ports:
+      - "8000:8000"
+    networks:
+      - backend
+
+  todo-nginx:
+    build:
+      context: ./nginx
+    container_name: todo-nginx
+    depends_on:
+      - todo-app
+    ports:
+      - "80:80"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  todo-db-volume:

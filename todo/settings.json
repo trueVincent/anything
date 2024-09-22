@@ -6,7 +6,7 @@
         "NAME": "postgres",
         "USER": "postgres",
         "PASSWORD": "123456",
-        "HOST": "localhost",
+        "HOST": "todo-db",
         "PORT": "5432",
         "SCHEMA": "todo"
     },
