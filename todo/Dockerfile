@@ -16,6 +16,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . /app/
 
+# Collect static files
+RUN python manage.py collectstatic --noinput
+
+# Not running migrate here cause not in the same network with db when build the image.
+# RUN python manage.py migrate
+
 EXPOSE 8000
 
 # gunicorn -c gunicorn_config.py todo.wsgi:application
