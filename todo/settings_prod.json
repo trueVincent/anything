@@ -1,7 +1,7 @@
 {
     "ENV": "prod",
     "DEBUG": false,
-    "ALLOWED_HOSTS": ["www.example.com"],
+    "ALLOWED_HOSTS": ["13.208.193.116"],
     "DB": {
         "NAME": "postgres",
         "USER": "postgres",
