@@ -20,10 +20,10 @@ docker network create todo
 echo "Starting PostgreSQL database..."
 docker run --name todo-db --network todo -p 5432:5432 -v todo-db-volume:/var/lib/postgresql/data -e POSTGRES_PASSWORD=123456 -d postgres:16
 # # Wait for PostgreSQL to become available
-# echo "Waiting for PostgreSQL to initialize..."
-# until docker exec todo-db pg_isready -U postgres; do
-#     sleep 1
-# done
+echo "Waiting for PostgreSQL to initialize..."
+until docker exec todo-db pg_isready -U postgres; do
+    sleep 1
+done
 # Create the schema "todo"
 echo "Creating schema 'todo'..."
 docker exec todo-db psql -U postgres -c 'CREATE SCHEMA IF NOT EXISTS "todo";'
@@ -31,7 +31,10 @@ docker exec todo-db psql -U postgres -c 'CREATE SCHEMA IF NOT EXISTS "todo";'
 # Build and start the Django app service
 echo "Building and starting Django app service..."
 docker build -t todo-app ./todo/.
-docker run --name todo-app --network todo -p 8000:8000 -d todo-app
+docker run --name todo-app --network todo -p 8000:8000 -d todo-app \
+    -v /mnt/app-logs:/app/logs \
+    -v /mnt/app-media:/mnt/media \
+    -v /mnt/app-static:/mnt/static
 docker exec todo-app python manage.py migrate
 
 # Build and start Nginx

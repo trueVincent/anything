@@ -10,6 +10,7 @@
         "PORT": "5432",
         "SCHEMA": "todo"
     },
-    "MEDIA_ROOT": "/mnt",
+    "MEDIA_ROOT": "/mnt/media",
+    "STATIC_ROOT": "/mnt/static",
     "LOG_LEVEL": "DEBUG"
 }

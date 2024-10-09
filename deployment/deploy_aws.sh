@@ -7,6 +7,7 @@ sudo apt install -y docker.io
 sudo systemctl start docker
 sudo systemctl enable docker
 sudo usermod -aG docker ubuntu
+newgrp docker
 
 # Start services. e.g. db, app, nginx
-sudo . ./deployment/start_services.sh
+sudo bash ./deployment/start_services.sh
