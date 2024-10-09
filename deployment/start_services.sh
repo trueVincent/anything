@@ -41,6 +41,8 @@ sudo docker exec todo-app python manage.py migrate
 # Build and start Nginx
 echo "Building and starting Nginx..."
 sudo docker build -t todo-nginx ./deployment/nginx/.
-sudo docker run --name todo-nginx --network todo -p 80:80 -d todo-nginx
+sudo docker run --name todo-nginx --network todo -p 80:80 \
+    -v /mtn/app-static:/mnt/app-static \
+    -d todo-nginx
 
 echo "All services started successfully!"
