@@ -31,7 +31,7 @@ sudo docker exec todo-db psql -U postgres -c 'CREATE SCHEMA IF NOT EXISTS "todo"
 # Build and start the Django app service
 echo "Building and starting Django app service..."
 sudo docker build -t todo-app ./todo/.
-sudo docker run --name todo-app --network todo -p 8000:8000 \
+sudo docker run --name todo-app --network todo -p 8000:8000 -e ENV=prod \
     -v /mnt/app-logs:/app/logs \
     -v /mnt/app-media:/mnt/media \
     -v /mnt/app-static:/mnt/static \

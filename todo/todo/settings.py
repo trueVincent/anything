@@ -24,9 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure--#n)#@0hp&ji6axg+)l705(1s0!+e&(u@vf+)0#nd-*%0dr+*5'
 
-with open(os.path.join(BASE_DIR, 'settings.json'), 'r') as f:
-    settings_json = json.load(f)
-ENV = settings_json['ENV']  # local, dev, qa, staging, prod
+ENV = os.environ.get('ENV')  # local, dev, qa, staging, prod
+if ENV == 'prod':
+    with open(os.path.join(BASE_DIR, 'settings_prod.json'), 'r') as f:
+        settings_json = json.load(f)
+else:
+    with open(os.path.join(BASE_DIR, 'settings_local.json'), 'r') as f:
+        settings_json = json.load(f)
 DEBUG = settings_json['DEBUG']
 
 ALLOWED_HOSTS = settings_json['ALLOWED_HOSTS']
