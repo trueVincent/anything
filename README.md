@@ -13,7 +13,12 @@ Tech stack:
 - Testing
 
 ## How to start the server
-- Method 1: start db, app and nginx using docker command separately
+- Method 1: start db with Docker and start app with "python manage.py runserver" for local development.
+  - "docker run --name todo-db --network todo -p 5432:5432 -v todo-db-volume:/var/lib/postgresql/data -e POSTGRES_PASSWORD=123456 -d postgres"
+  - create schema todo
+  - "docker exec -it todo-db psql -U postgres"
+  - "python manage.py runserver"
+- Method 2: start db, app and nginx with Docker
   - Docker Network
     - Create bridge network "docker network create todo"
   - Database
@@ -27,4 +32,12 @@ Tech stack:
   - Nginx
     - "docker build -t todo-nginx ."
     - "docker run --name todo-nginx --network todo -p 80:80 -d todo-nginx"
-- Method 2: docker-compose
+- Method 3: start db, app and nginx on AWS EC2 with Docker
+  - Start an instance and get SSH private key file.
+  - ssh to the server "ssh -i ./aws-key.pem ubuntu@13.208.193.116" and below happens on ec2.
+  - Generate SSH key pairs for GitHub repo. Add public key to repo.
+  - Start ssh-agent "eval "$(ssh-agent -s)""
+  - Add GitHub ssh key "ssh-add ~/.ssh/id_rsa"
+  - Clone the repo "git clone git@github.com:trueVincent/anything.git"
+  - Add permission to script "chmod +x ./deployment/deploy_aws.sh" "chmod +x ./deployment/start_services.sh"
+  - Execute deployment script "sudo bash ./deployment/deploy_aws.sh"
