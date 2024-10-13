@@ -53,7 +53,7 @@ jobs:
             echo "Building and starting Nginx..."
             sudo docker build -t todo-nginx ./deployment/nginx/.
             sudo docker run --name todo-nginx --network todo -p 80:80 \
-              -v /mtn/app-static:/mnt/app-static \
+              -v /mnt/app-static:/mnt/app-static \
               -d todo-nginx
             echo "All services started successfully!"
 
