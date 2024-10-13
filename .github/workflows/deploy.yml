@@ -25,11 +25,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # - name: Set up SSH access to the EC2 instance
-      #   uses: webfactory/ssh-agent@v0.7.0
-      #   with:
-      #     ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
-      
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v1.1.0
         with:
@@ -38,10 +33,29 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            echo "print pwd"
-            pwd
-            echo "print ls"
-            ls
+            cd anything
+            git pull -f
+            echo "Removing existing containers"
+            sudo docker rm -f todo-nginx 2>/dev/null || true
+            sudo docker rm -f todo-app 2>/dev/null || true
+            sudo docker rm -f todo-db 2>/dev/null || true
+            sudo docker network create todo 2>/dev/null || true
+            echo "Starting PostgreSQL database..."
+            sudo docker run --name todo-db --network todo -p 5432:5432 -v todo-db-volume:/var/lib/postgresql/data -e POSTGRES_PASSWORD=123456 -d postgres:16
+            echo "Building and starting Django app service..."
+            sudo docker build -t todo-app ./todo/.
+            sudo docker run --name todo-app --network todo -p 8000:8000 -e ENV=prod \
+              -v /mnt/app-logs:/app/logs \
+              -v /mnt/app-media:/mnt/media \
+              -v /mnt/app-static:/mnt/static \
+              -d todo-app
+            sudo docker exec todo-app python manage.py migrate
+            echo "Building and starting Nginx..."
+            sudo docker build -t todo-nginx ./deployment/nginx/.
+            sudo docker run --name todo-nginx --network todo -p 80:80 \
+              -v /mtn/app-static:/mnt/app-static \
+              -d todo-nginx
+            echo "All services started successfully!"
 
   # deploy:
   #   runs-on: ubuntu-latest
