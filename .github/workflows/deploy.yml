@@ -6,47 +6,42 @@ on:
       - main  # Trigger on push to the main branch
 
 jobs:
-  Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
-    
-  # build:
+  # Explore-GitHub-Actions:
   #   runs-on: ubuntu-latest
-
   #   steps:
-  #     - name: Set up SSH access to the EC2 instance
-  #       uses: webfactory/ssh-agent@v0.7.0
-  #       with:
-  #         ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
-      
-  #     # 自動使用 SSH to EC2
-  #     - name: Deploy to EC2 via SSH
-  #       uses: appleboy/ssh-action@v0.1.12
-  #       with:
-  #         host: ${{ secrets.EC2_HOST }}
-  #         username: ec2-user
-  #         key: ${{ secrets.EC2_SSH_KEY }}
-  #         port: 22
-  #         script: |
-  #           cd /path/to/your/app
-  #           git pull origin main
-  #           docker-compose down
-  #           docker-compose up -d --build
-
-  #     - name: Build PostgreSQL, Django and Nginx
+  #     - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+  #     - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+  #     - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+  #     - name: Check out repository code
+  #       uses: actions/checkout@v4
+  #     - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+  #     - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+  #     - name: List files in the repository
   #       run: |
-  #         command
+  #         ls ${{ github.workspace }}
+  #     - run: echo "🍏 This job's status is ${{ job.status }}."
+    
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # - name: Set up SSH access to the EC2 instance
+      #   uses: webfactory/ssh-agent@v0.7.0
+      #   with:
+      #     ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+      
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v0.1.12
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            echo "print pwd"
+            pwd
+            echo "print ls"
+            ls
 
   # deploy:
   #   runs-on: ubuntu-latest
