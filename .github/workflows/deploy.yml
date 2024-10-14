@@ -23,7 +23,6 @@ jobs:
             echo "Removing existing containers"
             sudo docker rm -f todo-nginx 2>/dev/null || true
             sudo docker rm -f todo-app 2>/dev/null || true
-            sudo docker rm -f todo-db 2>/dev/null || true
             echo "Building Django app service..."
             sudo docker build -t todo-app ./todo/.
             sudo docker run --name todo-app --network todo -e ENV=prod todo-app python manage.py runserver
@@ -36,7 +35,7 @@ jobs:
 
     steps:
       - name: Deploy on EC2 via SSH
-        uses: appleboy/ssh-action@1.1.0
+        uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
