@@ -177,3 +177,5 @@ LOGGING = {
         },
     },
 }
+
+CSRF_TRUSTED_ORIGINS = settings_json['CSRF_TRUSTED_ORIGINS']
