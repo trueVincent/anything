@@ -25,12 +25,13 @@ jobs:
             sudo docker rm -f todo-app 2>/dev/null || true
             echo "Building Django app service..."
             sudo docker build -t todo-app ./todo/.
-            sudo docker run --name todo-app --network todo -e ENV=prod todo-app python manage.py runserver
+            sudo docker run --name todo-app --network todo -e ENV=prod todo-app python manage.py migrate
             echo "Building Nginx..."
             sudo docker build -t todo-nginx ./deployment/nginx/.
             echo "All services builded successfully!"
             
   deploy:
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
