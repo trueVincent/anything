@@ -5,27 +5,12 @@ on:
     branches:
       - main  # Trigger on push to the main branch
 
-jobs:
-  # Explore-GitHub-Actions:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-  #     - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-  #     - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-  #     - name: Check out repository code
-  #       uses: actions/checkout@v4
-  #     - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-  #     - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-  #     - name: List files in the repository
-  #       run: |
-  #         ls ${{ github.workspace }}
-  #     - run: echo "🍏 This job's status is ${{ job.status }}."
-    
+jobs:    
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to EC2 via SSH
+      - name: Build on EC2 via SSH
         uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -39,46 +24,35 @@ jobs:
             sudo docker rm -f todo-nginx 2>/dev/null || true
             sudo docker rm -f todo-app 2>/dev/null || true
             sudo docker rm -f todo-db 2>/dev/null || true
-            sudo docker network create todo 2>/dev/null || true
-            echo "Starting PostgreSQL database..."
-            sudo docker run --name todo-db --network todo -p 5432:5432 -v todo-db-volume:/var/lib/postgresql/data -e POSTGRES_PASSWORD=123456 -d postgres:16
-            echo "Building and starting Django app service..."
+            echo "Building Django app service..."
             sudo docker build -t todo-app ./todo/.
+            sudo docker run --name todo-app --network todo -e ENV=prod todo-app python manage.py runserver
+            echo "Building Nginx..."
+            sudo docker build -t todo-nginx ./deployment/nginx/.
+            echo "All services builded successfully!"
+            
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy on EC2 via SSH
+        uses: appleboy/ssh-action@1.1.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            cd anything
+            echo "Starting Django app service..."
             sudo docker run --name todo-app --network todo -p 8000:8000 -e ENV=prod \
               -v /mnt/app-logs:/app/logs \
               -v /mnt/app-media:/mnt/media \
               -v /mnt/app-static:/mnt/static \
-              -d todo-app
-            sudo docker exec todo-app python manage.py migrate
-            echo "Building and starting Nginx..."
-            sudo docker build -t todo-nginx ./deployment/nginx/.
+              -d todo-app \
+              gunicorn -c ./todo/gunicorn_config.py todo.todo.wsgi:application
+            echo "Starting Nginx..."
             sudo docker run --name todo-nginx --network todo -p 80:80 \
               -v /mnt/app-static:/mnt/app-static \
               -d todo-nginx
             echo "All services started successfully!"
-
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   needs: build  # Ensures 'build' job is completed before starting 'deploy'
-
-  #   steps:
-  #     - name: Set up SSH access to the EC2 instance
-  #       uses: webfactory/ssh-agent@v0.7.0
-  #       with:
-  #         ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
-
-  #     - name: Deploy to EC2
-  #       run: |
-  #         ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
-  #         cd /path/to/your/app
-  #         # Pull the latest changes from the repository (optional if using Git)
-  #         git pull origin main
-          
-  #         # Update docker-compose.yml file if necessary (if it includes the Docker image version)
-  #         sed -i 's/image: .*/image: ${{ secrets.DOCKER_USERNAME }}\/my-app:latest/' docker-compose.yml
-
-  #         # Bring down the old container and bring up the new one
-  #         docker-compose down
-  #         docker-compose pull  # Pull the latest version of the image from Docker Hub
-  #         docker-compose up -d --build  # Build and deploy the new version in detached mode
-  #         EOF

@@ -27,4 +27,4 @@ RUN python manage.py collectstatic --noinput
 EXPOSE 8000
 
 # gunicorn -c gunicorn_config.py todo.wsgi:application
-CMD ["gunicorn", "-c", "gunicorn_config.py", "todo.wsgi:application"]
+# CMD ["gunicorn", "-c", "gunicorn_config.py", "todo.wsgi:application"]
