@@ -50,7 +50,7 @@ jobs:
               -v /mnt/app-media:/mnt/media \
               -v /mnt/app-static:/mnt/static \
               -d todo-app \
-              gunicorn -c ./todo/gunicorn_config.py todo.todo.wsgi:application
+              gunicorn -c gunicorn_config.py todo.wsgi:application
             echo "Starting Nginx..."
             sudo docker run --name todo-nginx --network todo -p 80:80 \
               -v /mnt/app-static:/mnt/app-static \
