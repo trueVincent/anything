@@ -141,8 +141,10 @@ MEDIA_ROOT = settings_json['MEDIA_ROOT']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+# Enable it when using HTTPS
+# CSRF_COOKIE_SECURE = False
+# SESSION_COOKIE_SECURE = False
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 LOGGING = {
     "version": 1,
@@ -179,3 +181,4 @@ LOGGING = {
 }
 
 CSRF_TRUSTED_ORIGINS = settings_json['CSRF_TRUSTED_ORIGINS']
+USE_X_FORWARDED_HOST = True
