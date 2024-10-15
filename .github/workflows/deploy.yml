@@ -8,6 +8,7 @@ on:
 jobs:    
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 3
 
     steps:
       - name: Build on EC2 via SSH
@@ -33,6 +34,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 3
 
     steps:
       - name: Deploy on EC2 via SSH
