@@ -41,3 +41,4 @@ Tech stack:
   - Clone the repo "git clone git@github.com:trueVincent/anything.git"
   - Add permission to script "chmod +x ./deployment/deploy_aws.sh" "chmod +x ./deployment/start_services.sh"
   - Execute deployment script "sudo bash ./deployment/deploy_aws.sh"
+- Method 4: Similar to Method 3, but only use init-instance.sh when starting a new instance. Also, use GitHub Actions for automatic deployment.
