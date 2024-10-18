@@ -9,7 +9,7 @@
         "PASSWORD": "123456",
         "HOST": "localhost",
         "PORT": "5432",
-        "SCHEMA": "todo"
+        "SCHEMA": "todo,public"
     },
     "MEDIA_ROOT": "./media",
     "STATIC_ROOT": "./static",

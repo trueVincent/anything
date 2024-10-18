@@ -25,5 +25,5 @@ from core.views import TodoList, TodoDetail
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/todos/', TodoList.as_view()),
-    path('api/v1/todos/<int:pk>', TodoDetail.as_view()),
+    path('api/v1/todos/<int:pk>/', TodoDetail.as_view()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
