@@ -8,6 +8,10 @@ sudo systemctl enable docker
 sudo usermod -aG docker ubuntu
 echo "Install Docker complete"
 
+# Install psql
+sudo apt install postgresql-client-common
+sudo apt-get install -y postgresql-client
+
 # Create docker network
 sudo docker network create todo
 
