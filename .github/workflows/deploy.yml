@@ -47,7 +47,7 @@ jobs:
           script: |
             cd anything
             echo "Starting test..."
-            PGPASSWORD='123456' psql -h localhost -U postgres -d postgres -c "DROP DATABASE IF EXISTS test_postgres;"
+            PGPASSWORD=${{ secrets.DB_PASSWORD }} psql -h localhost -U postgres -d postgres -c "DROP DATABASE IF EXISTS test_postgres;"
             sudo docker run --rm --network todo -e ENV=prod todo-app python manage.py test
             if [ $? -eq 0 ]; then
               echo "Tests passed successfully!"
