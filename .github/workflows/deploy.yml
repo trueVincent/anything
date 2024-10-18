@@ -30,9 +30,34 @@ jobs:
             echo "Building Nginx..."
             sudo docker build -t todo-nginx ./deployment/nginx/.
             echo "All services builded successfully!"
+  
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - name: Test on EC2 via SSH
+        uses: appleboy/ssh-action
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: $${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            cd anything
+            echo "Starting test..."
+            sudo docker run --rm --network todo -e ENV=prod todo-app python manage.py test
+            if [ $? -eq 0 ]; then
+              echo "Tests passed successfully!"
+            else
+              echo "Tests failed!" >&2
+              exit 1
+            fi
+              echo "Tested successfully!"
             
   deploy:
-    needs: build
+    needs: test
     runs-on: ubuntu-latest
     timeout-minutes: 3
 
