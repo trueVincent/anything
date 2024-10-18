@@ -38,7 +38,7 @@ jobs:
 
     steps:
       - name: Test on EC2 via SSH
-        uses: appleboy/ssh-action
+        uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
