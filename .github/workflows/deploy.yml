@@ -60,12 +60,19 @@ jobs:
               echo "Tested successfully!"
       
       - name: Commit and push coverage badge
-        run: |
-          git config --global user.name 'trueVincent'
-          git config --global user.email 'v39215068@gmail.com'
-          git add ./todo/coverage/coverage_badge.svg
-          git commit -m "Update coverage badge"
-          git push origin main
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            cd anything
+            git config --global user.name 'trueVincent'
+            git config --global user.email 'v39215068@gmail.com'
+            git add ./todo/coverage/coverage_badge.svg
+            git commit -m "Update coverage badge"
+            git push origin main
             
   deploy:
     needs: test
