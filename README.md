@@ -1,6 +1,6 @@
 # anything
 
-![Build Status](https://github.com/username/repo/actions/workflows/deploy.yml/badge.svg)
+![Build Status](https://github.com/trueVincent/anything/actions/workflows/deploy.yml/badge.svg)
 
 This is a repo to practice various tech stack so name it to "anything".
 Tech stack:
