@@ -51,7 +51,7 @@ jobs:
             echo "Starting test..."
             PGPASSWORD=${{ secrets.DB_PASSWORD }} psql -h localhost -U postgres -d postgres -c "DROP DATABASE IF EXISTS test_postgres;"
             sudo docker run --rm --network todo -e ENV=prod -v ./todo/coverage/coverage_badge.svg:/app/coverage/coverage_badge.svg todo-app bash test.sh
-            sudo cp ./todo/coverage/coverage_badge.svg ./coverage.svg
+            sudo cp ./todo/coverage/coverage_badge.svg ./coverage_badge.svg
             if [ $? -eq 0 ]; then
               echo "Tests passed successfully!"
             else
