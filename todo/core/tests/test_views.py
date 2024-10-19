@@ -41,44 +41,44 @@ class TodoListTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
-# class TodoDetailTests(APITestCase):
-#     def setUp(self):
-#         self.todo = Todo.objects.create(title="Task 1", description="Task 1 description", completed=False)
-#         self.valid_payload = {
-#             "title": "Updated Task",
-#             "description": "Updated description",
-#             "completed": True
-#         }
-#         self.invalid_payload = {
-#             "title": "",
-#             "description": "Updated description",
-#             "completed": True
-#         }
+class TodoDetailTests(APITestCase):
+    def setUp(self):
+        self.todo = Todo.objects.create(title="Task 1", description="Task 1 description", completed=False)
+        self.valid_payload = {
+            "title": "Updated Task",
+            "description": "Updated description",
+            "completed": True
+        }
+        self.invalid_payload = {
+            "title": "",
+            "description": "Updated description",
+            "completed": True
+        }
 
-#     def test_get_valid_single_todo(self):
-#         url = '/api/v1/todos/{}/'.format(self.todo.pk)
-#         response = self.client.get(url)
-#         todo = Todo.objects.get(pk=self.todo.pk)
-#         serializer = TodoSerializer(todo)
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         self.assertEqual(response.data, serializer.data)
+    def test_get_valid_single_todo(self):
+        url = '/api/v1/todos/{}/'.format(self.todo.pk)
+        response = self.client.get(url)
+        todo = Todo.objects.get(pk=self.todo.pk)
+        serializer = TodoSerializer(todo)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, serializer.data)
 
-#     def test_get_invalid_single_todo(self):
-#         url = '/api/v1/todos/{}/'.format(999)
-#         response = self.client.get(url)
-#         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+    def test_get_invalid_single_todo(self):
+        url = '/api/v1/todos/{}/'.format(999)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-#     def test_update_valid_todo(self):
-#         url = '/api/v1/todos/{}/'.format(self.todo.pk)
-#         response = self.client.put(url, data=self.valid_payload, format='json')
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
+    def test_update_valid_todo(self):
+        url = '/api/v1/todos/{}/'.format(self.todo.pk)
+        response = self.client.put(url, data=self.valid_payload, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-#     def test_update_invalid_todo(self):
-#         url = '/api/v1/todos/{}/'.format(self.todo.pk)
-#         response = self.client.put(url, data=self.invalid_payload, format='json')
-#         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    def test_update_invalid_todo(self):
+        url = '/api/v1/todos/{}/'.format(self.todo.pk)
+        response = self.client.put(url, data=self.invalid_payload, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-#     def test_delete_todo(self):
-#         url = '/api/v1/todos/{}/'.format(self.todo.pk)
-#         response = self.client.delete(url)
-#         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+    def test_delete_todo(self):
+        url = '/api/v1/todos/{}/'.format(self.todo.pk)
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

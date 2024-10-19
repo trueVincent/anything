@@ -72,7 +72,6 @@ jobs:
             git config --global user.email 'v39215068@gmail.com'
             git stash
             git checkout -b coverage-badge || git checkout coverage-badge
-            git rebase main
             git stash pop
             git add ./todo/coverage/coverage_badge.svg
             git commit -m "Update coverage badge"
