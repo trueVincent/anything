@@ -1,7 +1,7 @@
 # anything
 
 ![Build Status](https://github.com/trueVincent/anything/actions/workflows/deploy.yml/badge.svg)
-![Coverage](https://github.com/trueVincent/anything/blob/main/todo/coverage/coverage_badge.svg)
+![Coverage](https://github.com/trueVincent/anything/blob/coverage-badge/todo/coverage/coverage_badge.svg)
 
 This is a repo to practice various tech stack so name it to "anything".
 Tech stack:
@@ -51,5 +51,5 @@ Tech stack:
 ## How Does the Coverage Badge Work Without Third-Party Services(e.g. Codedev)?
 - Generate a test report using the Python `coverage` library.
 - Generate a test coverage badge using the Python `coverage-badge` library.
-- Upload the coverage badge to the main branch and use it to display the badge in the `README.md`.
+- Upload the coverage badge to the coverage-badge branch and use it to display the badge in the `README.md`.
 - For implementation details, see `test.sh` and `deploy.yml`.
