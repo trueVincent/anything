@@ -10,4 +10,5 @@ coverage run --source='.' --data-file=./coverage/.coverage manage.py test
 coverage html -d ./coverage --data-file=./coverage/.coverage
 
 # Generate coverage badge
-coverage-badge -o ./coverage/coverage_badge.svg --data-file=./coverage/.coverage
+cd coverage
+coverage-badge -o ./coverage_badge.svg
