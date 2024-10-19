@@ -11,4 +11,4 @@ coverage html -d ./coverage --data-file=./coverage/.coverage
 
 # Generate coverage badge
 cd coverage
-coverage-badge -o ./coverage_badge.svg
+coverage-badge -o ./coverage_badge.svg -f
