@@ -3,3 +3,5 @@ pillow==10.2.0
 djangorestframework==3.14.0
 psycopg2-binary==2.9.9
 gunicorn==21.2.0
+coverage==7.6.3
+coverage-badge==1.1.2

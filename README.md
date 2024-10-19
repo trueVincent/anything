@@ -1,6 +1,7 @@
 # anything
 
 ![Build Status](https://github.com/trueVincent/anything/actions/workflows/deploy.yml/badge.svg)
+![Coverage](https://github.com/trueVincent/anything/blob/main/todo/coverage/coverage_badge.svg)
 
 This is a repo to practice various tech stack so name it to "anything".
 Tech stack:

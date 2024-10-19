@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main  # Trigger on push to the main branch
+    paths-ignore:
+      - 'todo/coverage/coverage_badge.svg'
 
 jobs:    
   build:
@@ -48,7 +50,7 @@ jobs:
             cd anything
             echo "Starting test..."
             PGPASSWORD=${{ secrets.DB_PASSWORD }} psql -h localhost -U postgres -d postgres -c "DROP DATABASE IF EXISTS test_postgres;"
-            sudo docker run --rm --network todo -e ENV=prod todo-app python manage.py test
+            sudo docker run --rm --network todo -e ENV=prod -v ./todo/coverage:/app/coverage todo-app bash test.sh
             if [ $? -eq 0 ]; then
               echo "Tests passed successfully!"
             else
@@ -56,6 +58,14 @@ jobs:
               exit 1
             fi
               echo "Tested successfully!"
+      
+      - name: Commit and push coverage badge
+        run: |
+          git config --global user.name 'trueVincent'
+          git config --global user.email 'v39215068@gmail.com'
+          git add ./todo/coverage/coverage_badge.svg
+          git commit -m "Update coverage badge"
+          git push origin main
             
   deploy:
     needs: test
