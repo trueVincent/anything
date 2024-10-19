@@ -17,33 +17,39 @@ Tech stack:
 - Testing
 
 ## How to start the server
-- Method 1: start db with Docker and start app with "python manage.py runserver" for local development.
-  - "docker run --name todo-db --network todo -p 5432:5432 -v todo-db-volume:/var/lib/postgresql/data -e POSTGRES_PASSWORD=123456 -d postgres"
+- Method 1: start db with Docker and start app with `python manage.py runserver` for local development.
+  - `docker run --name todo-db --network todo -p 5432:5432 -v todo-db-volume:/var/lib/postgresql/data -e POSTGRES_PASSWORD=123456 -d postgres`
   - create schema todo
-  - "docker exec -it todo-db psql -U postgres"
-  - "python manage.py runserver"
+  - `docker exec -it todo-db psql -U postgres`
+  - `python manage.py runserver`
 - Method 2: start db, app and nginx with Docker
   - Docker Network
-    - Create bridge network "docker network create todo"
+    - Create bridge network `docker network create todo`
   - Database
-    - "docker pull postgres"
-    - "docker run --name todo-db --network todo -p 5432:5432 -v todo-db-volume:/var/lib/postgresql/data -e POSTGRES_PASSWORD=123456 -d postgres"
+    - `docker pull postgres`
+    - `docker run --name todo-db --network todo -p 5432:5432 -v todo-db-volume:/var/lib/postgresql/data -e POSTGRES_PASSWORD=123456 -d postgres`
     - create schema todo
-    - "docker exec -it todo-db psql -U postgres"
+    - `docker exec -it todo-db psql -U postgres`
   - App
-    - "docker build -t todo-app ."
-    - "docker run --name todo-app --network todo -p 8000:8000 -d todo-app"
+    - `docker build -t todo-app .`
+    - `docker run --name todo-app --network todo -p 8000:8000 -d todo-app`
   - Nginx
-    - "docker build -t todo-nginx ."
-    - "docker run --name todo-nginx --network todo -p 80:80 -d todo-nginx"
+    - `docker build -t todo-nginx .`
+    - `docker run --name todo-nginx --network todo -p 80:80 -d todo-nginx`
 - Method 3: start db, app and nginx on AWS EC2 with Docker
   - Start an instance and get SSH private key file.
-  - ssh to the server "ssh -i ./aws-key.pem ubuntu@13.208.193.116" and below happens on ec2.
+  - ssh to the server `ssh -i ./aws-key.pem ubuntu@13.208.193.116` and below happens on ec2.
   - Generate SSH key pairs for GitHub repo. Add public key to repo.
-  - Start ssh-agent "eval "$(ssh-agent -s)""
-  - Add GitHub ssh key "ssh-add ~/.ssh/id_rsa"
-  - Clone the repo "git clone git@github.com:trueVincent/anything.git"
-  - Add permission to script "chmod +x ./deployment/deploy_aws.sh" "chmod +x ./deployment/start_services.sh"
-  - Execute deployment script "sudo bash ./deployment/deploy_aws.sh"
+  - Start ssh-agent `eval "$(ssh-agent -s)"`
+  - Add GitHub ssh key `ssh-add ~/.ssh/id_rsa`
+  - Clone the repo `git clone git@github.com:trueVincent/anything.git`
+  - Add permission to script `chmod +x ./deployment/deploy_aws.sh` `chmod +x ./deployment/start_services.sh`
+  - Execute deployment script `sudo bash ./deployment/deploy_aws.sh`
 - Method 4: Similar to Method 3, but only use init-instance.sh when starting a new instance. Also, use GitHub Actions for automatic deployment.
   - For first-time setup, add the AWS SSH private key to GitHub Secrets. Then, generate a GitHub key on EC2 and add it to GitHub SSH Keys.
+
+## How Does the Coverage Badge Work Without Third-Party Services(e.g. Codedev)?
+- Generate a test report using the Python `coverage` library.
+- Generate a test coverage badge using the Python `coverage-badge` library.
+- Upload the coverage badge to the main branch and use it to display the badge in the `README.md`.
+- For implementation details, see `test.sh` and `deploy.yml`.
