@@ -47,9 +47,16 @@ Tech stack:
   - Execute deployment script `sudo bash ./deployment/deploy_aws.sh`
 - Method 4: Similar to Method 3, but only use init-instance.sh when starting a new instance. Also, use GitHub Actions for automatic deployment.
   - For first-time setup, add the AWS SSH private key to GitHub Secrets. Then, generate a GitHub key on EC2 and add it to GitHub SSH Keys.
+- Method 5: Using K8s to manage DB, app and Nginx servers.
+  - All yaml files are in the `deployment/k8s` folder
 
 ## How Does the Coverage Badge Work Without Third-Party Services(e.g. Codedev)?
 - Generate a test report using the Python `coverage` library.
 - Generate a test coverage badge using the Python `coverage-badge` library.
-- Upload the coverage badge to the coverage-badge branch and use it to display the badge in the `README.md`.
+- Upload the coverage badge to the main branch and use it to display the badge in the `README.md`.
 - For implementation details, see `test.sh` and `deploy.yml`.
+
+## Tech Stack
+Reverse Proxy(Nginx)(TBD) - Load Balancer(Nginx) - App Servers(Gunicorn and Django) - Database(PostgreSQL)
+      |
+      SSL
