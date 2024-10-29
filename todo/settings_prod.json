@@ -1,8 +1,8 @@
 {
     "ENV": "prod",
     "DEBUG": true,
-    "ALLOWED_HOSTS": ["13.208.193.116"],
-    "CSRF_TRUSTED_ORIGINS": ["http://13.208.193.116"],
+    "ALLOWED_HOSTS": ["15.168.7.0"],
+    "CSRF_TRUSTED_ORIGINS": ["http://15.168.7.0"],
     "DB": {
         "NAME": "postgres",
         "USER": "postgres",

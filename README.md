@@ -38,7 +38,7 @@ Tech stack:
     - `docker run --name todo-nginx --network todo -p 80:80 -d todo-nginx`
 - Method 3: start db, app and nginx on AWS EC2 with Docker
   - Start an instance and get SSH private key file.
-  - ssh to the server `ssh -i ./aws-key.pem ubuntu@13.208.193.116` and below happens on ec2.
+  - ssh to the server `ssh -i ./aws-key.pem ubuntu@15.168.7.0` and below happens on ec2.
   - Generate SSH key pairs for GitHub repo. Add public key to repo.
   - Start ssh-agent `eval "$(ssh-agent -s)"`
   - Add GitHub ssh key `ssh-add ~/.ssh/id_rsa`
