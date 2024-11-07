@@ -1,0 +1,16 @@
+{
+    "DEBUG": true,
+    "ALLOWED_HOSTS": [],
+    "CSRF_TRUSTED_ORIGINS": [],
+    "DB": {
+        "NAME": "postgres",
+        "USER": "postgres",
+        "PASSWORD": "123456",
+        "HOST": "db-service",
+        "PORT": "5432",
+        "SCHEMA": "todo,public"
+    },
+    "MEDIA_ROOT": "/app/media",
+    "STATIC_ROOT": "/app/static",
+    "LOG_LEVEL": "DEBUG"
+}

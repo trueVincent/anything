@@ -12,11 +12,18 @@ spec:
       labels:
         app: nginx
     spec:
+      volumes:
+        - name: staticfiles
+          persistentVolumeClaim:
+            claimName: staticfiles-pvc
       containers:
-      - name: nginx
-        image: 39215068/todo-nginx:1.0
-        ports:
-        - containerPort: 80
+        - name: nginx
+          image: 39215068/todo-nginx:2.2
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: "/app/static"
+              name: staticfiles
 ---
 apiVersion: v1
 kind: Service
@@ -29,4 +36,5 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-  type: LoadBalancer
+      nodePort: 30080
+  type: NodePort

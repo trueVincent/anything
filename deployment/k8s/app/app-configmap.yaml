@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: app-config
 data:
-  ENV: "prod"
+  ENV: "K8S"
   DB_NAME: "postgres"
   DB_USER: "postgres"
-  DB_PASSWORD": "123456"
+  DB_PASSWORD: "123456"

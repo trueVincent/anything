@@ -12,14 +12,22 @@ spec:
       labels:
         app: app
     spec:
+      volumes:
+        - name: staticfiles
+          persistentVolumeClaim:
+            claimName: staticfiles-pvc
       containers:
       - name: app
-        image: 39215068/todo-app:1.0
+        image: 39215068/todo-app:1.2
+        imagePullPolicy: Always
         envFrom:
         - configMapRef:
             name: app-config
         ports:
-        - containerPort: 8000
+          - containerPort: 8000
+        volumeMounts:
+          - mountPath: "/app/static"
+            name: staticfiles
 ---
 apiVersion: v1
 kind: Service

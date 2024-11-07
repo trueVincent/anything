@@ -28,6 +28,9 @@ ENV = os.environ.get('ENV')  # local, dev, qa, staging, prod
 if ENV == 'prod':
     with open(os.path.join(BASE_DIR, 'settings_prod.json'), 'r') as f:
         settings_json = json.load(f)
+elif ENV == 'K8S':
+    with open(os.path.join(BASE_DIR, 'settings_k8s.json'), 'r') as f:
+        settings_json = json.load(f)
 else:
     with open(os.path.join(BASE_DIR, 'settings_local.json'), 'r') as f:
         settings_json = json.load(f)
