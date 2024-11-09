@@ -27,12 +27,12 @@ The primary focus areas are **cloud (AWS), CI/CD (GitHub Actions), and container
 <a name="deployment" id="deployment"></a>
 ## Deployment
 <a name="deployment-development" id="deployment-development"></a>
-- Method 1: Local Development. Start DB with Docker and start app with `python manage.py runserver` for local development.
+- **Method 1: Local Development.** Start DB with Docker and start app with `python manage.py runserver` for local development.
   - `docker run --name todo-db --network todo -p 5432:5432 -v todo-db-volume:/var/lib/postgresql/data -e POSTGRES_PASSWORD=123456 -d postgres`
   - Create DB schema
   - `python manage.py runserver`
 <a name="deployment-container" id="deployment-container"></a>
-- Method 2: Container. Start DB, app and Nginx with Docker
+- **Method 2: Container.** Start DB, app and Nginx with Docker
   - Docker Network
     - Create bridge network `docker network create todo`
   - Database
@@ -46,7 +46,7 @@ The primary focus areas are **cloud (AWS), CI/CD (GitHub Actions), and container
     - `docker build -t todo-nginx .`
     - `docker run --name todo-nginx --network todo -p 80:80 -d todo-nginx`
 <a name="deployment-cloud" id="deployment-cloud"></a>
-- Method 3: Cloud with Shell Script. Start DB, app and Nginx on AWS EC2 with Docker
+- **Method 3: Cloud with Shell Script.** Start DB, app and Nginx on AWS EC2 with Docker
   - Start an instance and get SSH private key file.
   - SSH to the server `ssh -i ./aws-key.pem ubuntu@15.168.7.0` and below happens on EC2.
   - Generate SSH key pairs for GitHub repo. Add public key to repo.
@@ -56,13 +56,13 @@ The primary focus areas are **cloud (AWS), CI/CD (GitHub Actions), and container
   - Add permission to script `chmod +x ./deployment/deploy_aws.sh` `chmod +x ./deployment/start_services.sh`
   - Execute deployment script `sudo bash ./deployment/deploy_aws.sh`
 <a name="deployment-cicd" id="deployment-cicd"></a>
-- Method 4: Auto CI/CD. Similar to Method 3, but only use init-instance.sh when starting a new instance. Also, use GitHub Actions for automatic deployment.
+- **Method 4: Auto CI/CD.** Similar to Method 3, but only use init-instance.sh when starting a new instance. Also, use GitHub Actions for automatic deployment.
   - For first-time setup, add the AWS SSH private key to GitHub Secrets. Then, generate a GitHub key on EC2 and add it to GitHub SSH Keys.
   - Stage Build: Build Django and Nginx Docker images and run database migration.
   - Stage Test: Execute test, check coverage and generate coverage badge.
   - Stage Deploy
 <a name="deployment-kubernetes" id="deployment-kubernetes"></a>
-- Method 5: Kubernetes.
+- **Method 5: Kubernetes.**
   - Database Deployment: Configure a PersistentVolume and PersistentVolumeClaim to keep database data outside the pods. Set the service type to ClusterIP for internal communication between pods.
   - Application Deployment: Configure a PersistentVolume and PersistentVolumeClaim to share static files outside the pods. Set the service type to ClusterIP for internal communication between pods.
   - Nginx Deployment: Use a PersistentVolumeClaim to serve Django static files. Set the service type to NodePort to expose Nginx externally. Optionally, add a LoadBalancer or Ingress for future scalability and traffic management.
