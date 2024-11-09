@@ -1,5 +1,5 @@
 {
-    "DEBUG": true,
+    "DEBUG": false,
     "ALLOWED_HOSTS": [],
     "CSRF_TRUSTED_ORIGINS": [],
     "DB": {

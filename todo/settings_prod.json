@@ -1,6 +1,6 @@
 {
     "ENV": "prod",
-    "DEBUG": true,
+    "DEBUG": false,
     "ALLOWED_HOSTS": ["15.168.7.0"],
     "CSRF_TRUSTED_ORIGINS": ["http://15.168.7.0"],
     "DB": {
