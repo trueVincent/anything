@@ -3,16 +3,24 @@
 ![Build Status](https://github.com/trueVincent/anything/actions/workflows/deploy.yml/badge.svg)
 ![Coverage](https://github.com/trueVincent/anything/blob/main/todo/coverage/coverage_badge.svg)
 
+## Table of Contents
+- [Project Initiation](#project-initiation)
+- [High Level Design](#high-level-design)
+- [Deployment](#deployment)
+- [How Does the Coverage Badge Work Without Third-Party Services (e.g., Codecov)?](#coverage-badge)
+- [APIs](#apis)
+
+<a name="project-initiation" id="project-initiation"></a>
 ## Project Initiation
-This project is designed to practice various DevOps skills and can encompass a range of technologies, hence the name "anything."
+This project is designed to practice various DevOps skills and can encompass a range of technologies, hence the name "anything."  
 The primary focus areas are **cloud (AWS), CI/CD (GitHub Actions), and containerization (Docker and Kubernetes)**. Additionally, the project utilizes the following tech stack: **Django, PostgreSQL, Nginx, and testing tools**
 
+<a name="high-level-design" id="high-level-design"></a>
 ## High Level Design
 **Client** - **AWS EC2 Instance** - **Reverse Proxy/Load Balancer(Nginx)** - **App Servers(Gunicorn and Django)** - **Database(PostgreSQL)**
-  |
-  **DNS**
 
-## How to start the service?
+<a name="deployment" id="deployment"></a>
+## Deployment
 - Method 1: Local Development. Start DB with Docker and start app with `python manage.py runserver` for local development.
   - `docker run --name todo-db --network todo -p 5432:5432 -v todo-db-volume:/var/lib/postgresql/data -e POSTGRES_PASSWORD=123456 -d postgres`
   - Create DB schema
@@ -62,8 +70,27 @@ The primary focus areas are **cloud (AWS), CI/CD (GitHub Actions), and container
     - `kubectl get pods`
   - All yaml files are in the `deployment/k8s` folder
 
+<a name="coverage-badge" id="coverage-badge"></a>
 ## How Does the Coverage Badge Work Without Third-Party Services(e.g. Codedev)?
 - Generate a test report using the Python `coverage` library.
 - Generate a test coverage badge using the Python `coverage-badge` library.
 - Upload the coverage badge to the main branch and use it to display the badge in the `README.md`.
 - For implementation details, see `test.sh` and `deploy.yml`.
+
+<a name="apis" id="apis"></a>
+## APIs
+This project provides basic RESTful APIs for CRUD operations on Todo objects as a demonstration.  
+- **GET** `/api/v1/todos/`  
+  Retrieves a list of todo items.  
+  **Headers**: `{"Authorization": "JWT Token"}`
+- **POST** `/api/v1/todos/`  
+  Creates a new todo item.  
+  **Headers**: `{"Authorization": "JWT Token"}`  
+  **Data**: `{"title": "Buy sugar", "description": "Buy 1 get 1 free", "completed": false}`
+- **PUT** `/api/v1/todos/{pk}/`  
+  Updates an existing todo item by primary key ({pk}).  
+  **Headers**: `{"Authorization": "JWT Token"}`  
+  **Data**: `{"title": "Buy sugar", "description": "Buy 1 get 1 free", "completed": true}`
+- **DELETE** `/api/v1/todos/{pk}/`  
+  Deletes a todo item by primary key ({pk}).  
+  **Headers**: `{"Authorization": "JWT Token"}`

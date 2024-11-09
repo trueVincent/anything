@@ -3,7 +3,7 @@ name: CI/CD on EC2
 on:
   push:
     branches:
-      - prod
+      - main
     paths-ignore:
       - 'todo/coverage/coverage_badge.svg'
 
