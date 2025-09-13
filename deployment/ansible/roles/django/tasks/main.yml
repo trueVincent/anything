@@ -1,0 +1,24 @@
+- name: Copy project files
+  synchronize:
+    src: /local/path/to/project/
+    dest: /home/deploy/myapp/
+
+- name: Install requirements
+  pip:
+    requirements: /home/deploy/myapp/requirements.txt
+    virtualenv: /home/deploy/venv
+
+- name: Run migrations
+  command: /home/deploy/venv/bin/python manage.py migrate
+  args:
+    chdir: /home/deploy/myapp/
+
+- name: Collect static
+  command: /home/deploy/venv/bin/python manage.py collectstatic --noinput
+  args:
+    chdir: /home/deploy/myapp/
+
+- name: Restart Gunicorn
+  systemd:
+    name: gunicorn
+    state: restarted

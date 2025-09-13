@@ -48,7 +48,7 @@ The primary focus areas are **cloud (AWS), CI/CD (GitHub Actions), and container
 <a name="deployment-cloud" id="deployment-cloud"></a>
 - **Method 3: Cloud with Shell Script.** Start DB, app and Nginx on AWS EC2 with Docker
   - Start an instance and get SSH private key file.
-  - SSH to the server `ssh -i ./aws-key.pem ubuntu@15.168.7.0` and below happens on EC2.
+  - SSH to the server `ssh -i ./aws-key.pem ubuntu@{public ip}` and below happens on EC2.
   - Generate SSH key pairs for GitHub repo. Add public key to repo.
   - Start ssh-agent `eval "$(ssh-agent -s)"`
   - Add GitHub ssh key `ssh-add ~/.ssh/id_rsa`
@@ -79,6 +79,10 @@ The primary focus areas are **cloud (AWS), CI/CD (GitHub Actions), and container
   - Check status of running pods
     - `kubectl get pods`
   - All yaml files are in the `deployment/k8s` folder
+<a name="deployment-ansible" id="deployment-ansible"></a>
+- **Method 6: Ansible.**
+  - cd deployment/ansible
+  - ansible-playbook -i inventory/dev/hosts.ini playbooks/deploy.yml
 
 <a name="coverage-badge" id="coverage-badge"></a>
 ## How Does the Coverage Badge Work Without Third-Party Services(e.g. Codedev)?

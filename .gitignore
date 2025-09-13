@@ -164,3 +164,7 @@ cython_debug/
 
 media/
 static/
+
+# Ansible
+.ansible_vault_pass.txt
+*.pem

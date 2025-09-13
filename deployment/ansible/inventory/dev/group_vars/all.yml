@@ -1,0 +1,13 @@
+# Nginx
+nginx_image: nginx:1.23.3
+
+# PostgreSQL
+postgresql_image: postgres:14
+postgresql_data_dir: /var/lib/postgresql/data
+postgresql_user: postgres
+postgresql_db: anything
+
+# Application
+app_image: myapp:latest
+app_port: 8000
+app_debug: true

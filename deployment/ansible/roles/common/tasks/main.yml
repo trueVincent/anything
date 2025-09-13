@@ -1,0 +1,23 @@
+- name: Update apt
+  apt:
+    update_cache: yes
+
+- name: Install base packages
+  apt:
+    name:
+      - git
+      - curl
+      - ufw
+    state: present
+
+- name: Add deploy user
+  user:
+    name: deploy
+    groups: sudo
+    shell: /bin/bash
+    create_home: yes
+
+- name: Setup ssh authorized_keys
+  authorized_key:
+    user: deploy
+    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
