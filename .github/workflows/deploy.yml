@@ -1,12 +1,13 @@
 name: CI/CD on EC2
 
-# Temp disable GitHub Actions
-# on:
-#   push:
-#     branches:
-#       - main
-#     paths-ignore:
-#       - 'todo/coverage/coverage_badge.svg'
+on:
+  workflow_dispatch:
+  # Temp disable GitHub Actions
+  # push:
+  #   branches:
+  #     - main
+  #   paths-ignore:
+  #     - 'todo/coverage/coverage_badge.svg'
 
 jobs:    
   build:
