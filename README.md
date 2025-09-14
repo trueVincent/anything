@@ -82,6 +82,7 @@ The primary focus areas are **cloud (AWS), CI/CD (GitHub Actions), and container
 <a name="deployment-ansible" id="deployment-ansible"></a>
 - **Method 6: Ansible.**
   - cd deployment/ansible
+  - ansible-playbook -i inventory/dev/hosts.ini playbooks/setup.yml
   - ansible-playbook -i inventory/dev/hosts.ini playbooks/deploy.yml
 
 <a name="coverage-badge" id="coverage-badge"></a>
