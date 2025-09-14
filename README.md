@@ -81,9 +81,11 @@ The primary focus areas are **cloud (AWS), CI/CD (GitHub Actions), and container
   - All yaml files are in the `deployment/k8s` folder
 <a name="deployment-ansible" id="deployment-ansible"></a>
 - **Method 6: Ansible.**
-  - cd deployment/ansible
-  - ansible-playbook -i inventory/dev/hosts.ini playbooks/setup.yml
-  - ansible-playbook -i inventory/dev/hosts.ini playbooks/deploy.yml
+  - `cd deployment/ansible`
+  - Setup new instance
+    - ansible-playbook -i inventory/dev/hosts.ini playbooks/setup.yml
+  - Deploy
+    - ansible-playbook -i inventory/dev/hosts.ini playbooks/deploy.yml
 
 <a name="coverage-badge" id="coverage-badge"></a>
 ## How Does the Coverage Badge Work Without Third-Party Services(e.g. Codedev)?

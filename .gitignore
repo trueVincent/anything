@@ -168,3 +168,4 @@ static/
 # Ansible
 .ansible_vault_pass.txt
 *.pem
+*deploy_key

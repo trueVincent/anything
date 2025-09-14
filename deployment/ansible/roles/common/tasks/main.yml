@@ -1,23 +1,78 @@
-- name: Update apt
-  apt:
+- name: Update apt cache
+  ansible.builtin.apt:
     update_cache: yes
+    cache_valid_time: 3600
+
+- name: Upgrade all packages
+  ansible.builtin.apt:
+    upgrade: dist
 
 - name: Install base packages
-  apt:
+  ansible.builtin.apt:
     name:
       - git
       - curl
-      - ufw
+      - wget
+      - htop
+      - vim
+      - unzip
+      - python3-pip
+      - jq
     state: present
 
-- name: Add deploy user
-  user:
-    name: deploy
-    groups: sudo
+- name: Ensure deploy user exists
+  ansible.builtin.user:
+    name: "{{ deploy_user }}"
     shell: /bin/bash
+    groups: sudo
     create_home: yes
 
-- name: Setup ssh authorized_keys
-  authorized_key:
-    user: deploy
-    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+- name: Set up authorized key for deploy user
+  ansible.builtin.authorized_key:
+    user: "{{ deploy_user }}"
+    key: "{{ lookup('file', deploy_ssh_publickey_file) }}"
+  when: deploy_ssh_publickey_file is defined
+
+- name: Install dependencies for Docker
+  ansible.builtin.apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+    state: present
+
+- name: Add Docker GPG key
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable"
+    state: present
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Install Docker
+  ansible.builtin.apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: present
+
+- name: Ensure Docker service is running
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Add deploy user to docker group
+  ansible.builtin.user:
+    name: "{{ deploy_user }}"
+    groups: docker
+    append: yes

@@ -14,10 +14,9 @@
       ansible.builtin.debug:
         msg: "Connected as {{ whoami_result.stdout }}"
 
-# - name: Initial server setup
-#   hosts: all
-#   become: yes
+- name: Initial setup for new instances
+  hosts: all
+  become: true
 
-#   roles:
-#     - role: common
-#     - role: docker
+  roles:
+    - role: common
